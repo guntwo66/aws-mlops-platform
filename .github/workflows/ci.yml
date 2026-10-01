@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -8,8 +8,12 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  test:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,5 +31,15 @@ jobs:
       - name: Python syntax check
         run: python -m compileall app.py train.py predict.py
 
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build Docker image
-        run: docker build -t mlops-test .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/mlops-test:latest .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/mlops-test:latest
