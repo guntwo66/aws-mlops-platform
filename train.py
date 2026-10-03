@@ -1,5 +1,6 @@
 import mlflow
 import mlflow.sklearn
+import joblib
 
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -29,6 +30,8 @@ with mlflow.start_run():
 
     # 学習
     model.fit(X_train, y_train)
+
+    joblib.dump(model, "model.pkl")
 
     # 予測
     y_pred = model.predict(X_test)
