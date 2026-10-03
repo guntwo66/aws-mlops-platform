@@ -1,4 +1,5 @@
 import joblib
+import os
 
 from fastapi import FastAPI
 
@@ -9,8 +10,10 @@ model = joblib.load("model.pkl")
 
 @app.get("/")
 def root():
-    return {"message": "ML API is running"}
-
+    return {
+        "message": "ML API is running",
+        "hostname": os.environ.get("HOSTNAME")
+    }
 
 @app.post("/predict")
 def predict(features: list[float]):
