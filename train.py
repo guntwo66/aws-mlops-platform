@@ -49,5 +49,6 @@ with mlflow.start_run():
     # 学習したモデルもMLflowに保存
     mlflow.sklearn.log_model(
         model,
-        name="iris_model"
+        name="iris_model" ,
+        registered_model_name="iris_model"
     )

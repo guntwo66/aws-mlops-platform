@@ -12,6 +12,7 @@ spec:
       labels:
         app: mlops-test
     spec:
+      serviceAccountName: mlops-test
       containers:
         - name: mlops-test
           image: ghcr.io/guntwo66/mlops-test:efa70f52497883d8182eff25998f1c58aaec3f6a
